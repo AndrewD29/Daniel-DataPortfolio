@@ -1,19 +1,19 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head>
-    <title>Daniel Andrew Portfolio</title>
+    <title>Daniel Andrew | Data Portfolio</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
-        /* This CSS mimics the 'Big Picture' template layout */
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Source Sans Pro', sans-serif; }
+        /* Modern Layout CSS */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; scroll-behavior: smooth; }
         
-        /* The Full-Screen Background Header */
+        /* Full-Screen Hero Section */
         #intro {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop'); /* Placeholder high-tech background */
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                        url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070'); /* Professional Data Background */
             background-size: cover;
             background-position: center;
             display: flex;
@@ -24,155 +24,152 @@
             text-align: center;
         }
 
-        #intro h1 { font-size: 3.5em; margin: 0; letter-spacing: 5px; }
-        #intro p { font-size: 1.2em; letter-spacing: 2px; }
+        #intro h1 { font-size: 4em; margin: 0; letter-spacing: 8px; text-transform: uppercase; }
+        #intro p { font-size: 1.3em; letter-spacing: 3px; margin-top: 10px; opacity: 0.9; }
 
-        /* Navigation Sidebar (Matches Aya's site) */
-        nav {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
-        }
-        nav ul { list-style: none; }
+        /* Navigation Dots */
+        nav { position: fixed; right: 30px; top: 50%; transform: translateY(-50%); z-index: 1000; }
+        nav ul { list-style: none; padding: 0; }
         nav ul li a {
             display: block;
-            width: 12px;
-            height: 12px;
-            background: rgba(255,255,255,0.5);
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
             border-radius: 50%;
-            margin: 20px 0;
+            margin: 25px 0;
             text-indent: -9999px;
             border: 2px solid white;
-        }
-
-        /* Section Layouts */
-        .main-section {
-            padding: 100px 10% 100px 10%;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .dark { background: #222629; color: white; }
-        .light { background: #ffffff; color: #222629; }
-
-        /* Project Grid with Large Images */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2px; /* Original site uses tight gaps */
-            margin-top: 50px;
-        }
-        
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 4/3;
-            background: #444;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
             transition: 0.3s;
-            opacity: 0.8;
+        }
+        nav ul li a:hover { background: #3498db; transform: scale(1.5); }
+
+        /* General Section Styling */
+        .section { padding: 100px 10%; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
+        .light { background: #ffffff; color: #1e293b; }
+        .dark { background: #0f172a; color: white; }
+
+        h2 { font-size: 2.5em; margin-bottom: 30px; position: relative; }
+        h2::after { content: ''; display: block; width: 60px; height: 4px; background: #3498db; margin-top: 10px; }
+
+        /* About Section Text */
+        .about-text { font-size: 1.2em; line-height: 1.8; max-width: 800px; }
+        .highlight { color: #3498db; font-weight: bold; }
+
+        /* Skills Grid */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-top: 40px; }
+        .skill-card { text-align: center; padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px; transition: 0.3s; }
+        .skill-card:hover { border-color: #3498db; transform: translateY(-5px); }
+        .skill-card i { font-size: 2.5em; color: #3498db; margin-bottom: 10px; }
+
+        /* Project Gallery */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; }
+        .gallery-item { 
+            position: relative; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            aspect-ratio: 16/9; 
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); 
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); filter: brightness(40%); }
+        
+        .overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            opacity: 0; transition: 0.5s; color: white; 
+        }
+        .gallery-item:hover .overlay { opacity: 1; }
+
+        .btn-link { 
+            padding: 10px 20px; border: 2px solid white; color: white; 
+            text-decoration: none; font-weight: bold; margin-top: 10px; border-radius: 5px; 
         }
 
-        .gallery-item:hover img { opacity: 1; transform: scale(1.05); }
-
-        .item-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .btn-view {
-            border: 2px solid white;
-            color: white;
-            padding: 8px 15px;
-            text-decoration: none;
-            font-size: 0.8em;
-            text-transform: uppercase;
-        }
-
-        /* Footer / Contact */
-        #contact { text-align: center; padding: 100px 20px; background: #1b1e21; color: white; }
+        /* Footer */
+        footer { padding: 80px 20px; text-align: center; background: #0f172a; color: #94a3b8; border-top: 1px solid #1e293b; }
+        .social-links a { color: white; font-size: 2em; margin: 0 15px; transition: 0.3s; }
+        .social-links a:hover { color: #3498db; }
     </style>
 </head>
 <body>
 
     <nav>
         <ul>
-            <li><a href="#intro">Intro</a></li>
-            <li><a href="#work">Work</a></li>
+            <li><a href="#intro">Top</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Work</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
     <section id="intro">
         <h1>DANIEL ANDREW</h1>
-        <p>Data Professional | Analytics | BI Developer</p>
-        <div style="margin-top: 30px;">
-            <a href="#work" class="btn-view">Continue</a>
+        <p>Data Professional & Business Analyst</p>
+        <a href="#about" style="margin-top: 40px; color: white; text-decoration: none; font-size: 2em;"><i class="fas fa-chevron-down"></i></a>
+    </section>
+
+    <section id="about" class="section light">
+        <h2>About Me</h2>
+        <div class="about-text">
+            <p>I’m <span class="highlight">Daniel Andrew</span> — a data-focused problem solver with a strong interest in business analysis, data transformation, and insight-driven decision making.</p>
+            <p>I enjoy working with data to uncover patterns, improve processes, and turn complex information into clear, actionable insights. My focus is on building clean, scalable, and user-friendly reports that drive real results.</p>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-card">
+                <i class="fas fa-chart-bar"></i>
+                <p>Power BI</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-table"></i>
+                <p>Excel (Advanced)</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-database"></i>
+                <p>SQL</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-project-diagram"></i>
+                <p>Data Modelling</p>
+            </div>
         </div>
     </section>
 
-    <section id="about" class="main-section light">
-        <h2>Who I Am</h2>
-        <p>I am a data enthusiast focused on building real-time business tracking dashboards and high-performance data architectures.</p>
-        <div style="border-left: 4px solid #3498db; padding-left: 20px;">
-            <h3>Experience</h3>
-            <p><strong>Senior Data Analyst</strong> - [Company Name]<br>
-            Developed standalone data servers and improved performance by 60%.</p>
-        </div>
-    </section>
-
-    <section id="work" class="main-section dark">
+    <section id="projects" class="section dark">
         <h2>My Work</h2>
         <div class="gallery">
             
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Python">
-                <div class="item-overlay">
-                    <h3>Python Analysis</h3>
-                    <a href="#" class="btn-view">View Project</a>
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800" alt="Project 1">
+                <div class="overlay">
+                    <h3>Financial Dashboard</h3>
+                    <p>Power BI & Excel</p>
+                    <a href="#" class="btn-link">View Details</a>
                 </div>
             </div>
 
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" alt="PowerBI">
-                <div class="item-overlay">
-                    <h3>Power BI Work</h3>
-                    <a href="#" class="btn-view">View Project</a>
-                </div>
-            </div>
-
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2021&auto=format&fit=crop" alt="SQL">
-                <div class="item-overlay">
-                    <h3>SQL Databases</h3>
-                    <a href="#" class="btn-view">View Project</a>
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800" alt="Project 2">
+                <div class="overlay">
+                    <h3>SQL Data Transformation</h3>
+                    <p>Database Optimization</p>
+                    <a href="#" class="btn-link">View Details</a>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <section id="contact">
+    <footer id="contact">
         <h2>Get In Touch</h2>
-        <p>Email: daniel.andrew@example.com</p>
-        <div style="font-size: 2em;">
-            <a href="#" style="color:white; margin: 0 10px;"><i class="fab fa-github"></i></a>
-            <a href="#" style="color:white; margin: 0 10px;"><i class="fab fa-linkedin"></i></a>
+        <p>Currently open to new opportunities and collaborations.</p>
+        <div class="social-links" style="margin: 30px 0;">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="mailto:your.email@example.com"><i class="fas fa-envelope"></i></a>
         </div>
-        <p style="margin-top: 50px; opacity: 0.5;">&copy; Daniel Andrew. Design: HTML5 UP.</p>
-    </section>
+        <p style="font-size: 0.8em; opacity: 0.6;">&copy; 2024 Daniel Andrew. Built with passion for data.</p>
+    </footer>
 
 </body>
 </html>
