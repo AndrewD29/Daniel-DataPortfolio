@@ -1,120 +1,178 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html>
 <head>
-    <title>Daniel Andrew | Portfolio</title>
+    <title>Daniel Andrew Portfolio</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #ffffff; color: #333; line-height: 1.6; }
+        /* This CSS mimics the 'Big Picture' template layout */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Source Sans Pro', sans-serif; }
         
-        /* Navigation */
-        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); padding: 15px 0; z-index: 100; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        nav a { color: #2c3e50; margin: 0 20px; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9em; }
-        nav a:hover { color: #3498db; }
-
-        /* Header Section */
-        header { 
-            background: #2c3e50; 
-            background-image: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('your-background.jpg'); 
+        /* The Full-Screen Background Header */
+        #intro {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop'); /* Placeholder high-tech background */
             background-size: cover;
             background-position: center;
-            color: white; 
-            padding: 120px 20px 80px 20px; 
-            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
         }
-        .profile-img { border-radius: 50%; width: 160px; height: 160px; border: 4px solid #3498db; object-fit: cover; margin-bottom: 20px; }
-        header h1 { margin: 10px 0; font-size: 2.5em; letter-spacing: 2px; }
-        header p { font-size: 1.2em; opacity: 0.9; }
 
-        /* Content Sections */
-        section { padding: 80px 20px; max-width: 1100px; margin: auto; }
-        h2 { text-align: center; font-size: 2em; margin-bottom: 40px; color: #2c3e50; position: relative; }
-        h2::after { content: ''; display: block; width: 50px; height: 3px; background: #3498db; margin: 10px auto; }
+        #intro h1 { font-size: 3.5em; margin: 0; letter-spacing: 5px; }
+        #intro p { font-size: 1.2em; letter-spacing: 2px; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .card { background: #fdffdf; padding: 30px; border-radius: 12px; border: 1px solid #eee; transition: transform 0.3s ease; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        /* Navigation Sidebar (Matches Aya's site) */
+        nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+        nav ul { list-style: none; }
+        nav ul li a {
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            margin: 20px 0;
+            text-indent: -9999px;
+            border: 2px solid white;
+        }
+
+        /* Section Layouts */
+        .main-section {
+            padding: 100px 10% 100px 10%;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         
-        /* Buttons */
-        .btn { display: inline-block; background: #3498db; color: white; padding: 12px 25px; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
-        .btn:hover { background: #2980b9; }
+        .dark { background: #222629; color: white; }
+        .light { background: #ffffff; color: #222629; }
 
-        /* Contact Section */
-        .contact-area { background: #f9f9f9; text-align: center; padding: 60px 20px; border-top: 1px solid #eee; }
-        .social-icons a { color: white; font-size: 1.8em; margin: 0 15px; transition: 0.3s; }
-        .social-icons a:hover { color: #3498db; }
+        /* Project Grid with Large Images */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2px; /* Original site uses tight gaps */
+            margin-top: 50px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: #444;
+        }
 
-        footer { text-align: center; padding: 30px; color: #777; font-size: 0.9em; }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+            opacity: 0.8;
+        }
+
+        .gallery-item:hover img { opacity: 1; transform: scale(1.05); }
+
+        .item-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .btn-view {
+            border: 2px solid white;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            font-size: 0.8em;
+            text-transform: uppercase;
+        }
+
+        /* Footer / Contact */
+        #contact { text-align: center; padding: 100px 20px; background: #1b1e21; color: white; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <ul>
+            <li><a href="#intro">Intro</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
 
-    <header id="about">
-        <img src="https://via.placeholder.com/160" alt="Daniel Andrew" class="profile-img">
+    <section id="intro">
         <h1>DANIEL ANDREW</h1>
-        <p>Data Professional | Analytics Specialist | Problem Solver</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-github"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-        </div>
-    </header>
-
-    <section id="experience">
-        <h2>Professional Experience</h2>
-        <div class="card">
-            <h3>Role Title @ Company Name</h3>
-            <p><em>Month Year - Present</em></p>
-            <ul>
-                <li>Led a team to deliver high-impact data visualizations.</li>
-                <li>Optimized workflows, saving 10+ hours of manual work per week.</li>
-                <li>Collaborated with stakeholders to define key business metrics.</li>
-            </ul>
+        <p>Data Professional | Analytics | BI Developer</p>
+        <div style="margin-top: 30px;">
+            <a href="#work" class="btn-view">Continue</a>
         </div>
     </section>
 
-    <section id="projects">
-        <h2>Featured Projects</h2>
-        <div class="grid">
+    <section id="about" class="main-section light">
+        <h2>Who I Am</h2>
+        <p>I am a data enthusiast focused on building real-time business tracking dashboards and high-performance data architectures.</p>
+        <div style="border-left: 4px solid #3498db; padding-left: 20px;">
+            <h3>Experience</h3>
+            <p><strong>Senior Data Analyst</strong> - [Company Name]<br>
+            Developed standalone data servers and improved performance by 60%.</p>
+        </div>
+    </section>
+
+    <section id="work" class="main-section dark">
+        <h2>My Work</h2>
+        <div class="gallery">
             
-            <div class="card">
-                <h3>Data Analysis & Insights</h3>
-                <p>Advanced analysis using Python and SQL to uncover business trends.</p>
-                <a href="#" class="btn">View Project</a>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Python">
+                <div class="item-overlay">
+                    <h3>Python Analysis</h3>
+                    <a href="#" class="btn-view">View Project</a>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>BI Dashboards</h3>
-                <p>Visualizing complex data sets through Power BI and Tableau.</p>
-                <a href="#" class="btn">View Project</a>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" alt="PowerBI">
+                <div class="item-overlay">
+                    <h3>Power BI Work</h3>
+                    <a href="#" class="btn-view">View Project</a>
+                </div>
             </div>
 
-            <div class="card">
-                <h3>Automation Tools</h3>
-                <p>Custom scripts built to automate repetitive data entry tasks.</p>
-                <a href="#" class="btn">View Project</a>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=2021&auto=format&fit=crop" alt="SQL">
+                <div class="item-overlay">
+                    <h3>SQL Databases</h3>
+                    <a href="#" class="btn-view">View Project</a>
+                </div>
             </div>
 
         </div>
     </section>
 
-    <div id="contact" class="contact-area">
+    <section id="contact">
         <h2>Get In Touch</h2>
-        <p><i class="fas fa-envelope"></i> daniel.andrew@example.com</p>
-        <p><i class="fas fa-map-marker-alt"></i> City, Country</p>
-        <p><i class="fab fa-linkedin"></i> linkedin.com/in/danielandrew</p>
-    </div>
-
-    <footer>
-        <p>&copy; 2024 Daniel Andrew. All rights reserved.</p>
-    </footer>
+        <p>Email: daniel.andrew@example.com</p>
+        <div style="font-size: 2em;">
+            <a href="#" style="color:white; margin: 0 10px;"><i class="fab fa-github"></i></a>
+            <a href="#" style="color:white; margin: 0 10px;"><i class="fab fa-linkedin"></i></a>
+        </div>
+        <p style="margin-top: 50px; opacity: 0.5;">&copy; Daniel Andrew. Design: HTML5 UP.</p>
+    </section>
 
 </body>
 </html>
