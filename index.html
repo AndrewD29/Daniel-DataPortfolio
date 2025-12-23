@@ -1,82 +1,120 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Daniel Andrew | Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+    <title>Daniel Andrew | Portfolio</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #ffffff; color: #333; line-height: 1.6; }
+        
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255, 255, 255, 0.95); padding: 15px 0; z-index: 100; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        nav a { color: #2c3e50; margin: 0 20px; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9em; }
+        nav a:hover { color: #3498db; }
+
+        /* Header Section */
+        header { 
+            background: #2c3e50; 
+            background-image: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('your-background.jpg'); 
+            background-size: cover;
+            background-position: center;
+            color: white; 
+            padding: 120px 20px 80px 20px; 
+            text-align: center; 
+        }
+        .profile-img { border-radius: 50%; width: 160px; height: 160px; border: 4px solid #3498db; object-fit: cover; margin-bottom: 20px; }
+        header h1 { margin: 10px 0; font-size: 2.5em; letter-spacing: 2px; }
+        header p { font-size: 1.2em; opacity: 0.9; }
+
+        /* Content Sections */
+        section { padding: 80px 20px; max-width: 1100px; margin: auto; }
+        h2 { text-align: center; font-size: 2em; margin-bottom: 40px; color: #2c3e50; position: relative; }
+        h2::after { content: ''; display: block; width: 50px; height: 3px; background: #3498db; margin: 10px auto; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card { background: #fdffdf; padding: 30px; border-radius: 12px; border: 1px solid #eee; transition: transform 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        
+        /* Buttons */
+        .btn { display: inline-block; background: #3498db; color: white; padding: 12px 25px; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .btn:hover { background: #2980b9; }
+
+        /* Contact Section */
+        .contact-area { background: #f9f9f9; text-align: center; padding: 60px 20px; border-top: 1px solid #eee; }
+        .social-icons a { color: white; font-size: 1.8em; margin: 0 15px; transition: 0.3s; }
+        .social-icons a:hover { color: #3498db; }
+
+        footer { text-align: center; padding: 30px; color: #777; font-size: 0.9em; }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Daniel Andrew</h1>
-    <p>Senior Data Analyst and BI Developer</p>
+
     <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
     </nav>
-  </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>With nearly 20 years of experience, I simplify complex data into clear, actionable insights. Passionate about storytelling through data, I've helped drive efficiency across sectors like energy, finance, and telecoms. I make data accessible for all levels of understanding.</p>
-  </section>
+    <header id="about">
+        <img src="https://via.placeholder.com/160" alt="Daniel Andrew" class="profile-img">
+        <h1>DANIEL ANDREW</h1>
+        <p>Data Professional | Analytics Specialist | Problem Solver</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </header>
 
-  <section id="skills">
-    <h2>Skills</h2>
-    <ul>
-      <li>SQL</li>
-      <li>Power BI</li>
-      <li>DAX</li>
-      <li>Power Query</li>
-      <li>Excel</li>
-      <li>Python (Beginner)</li>
-      <li>Six Sigma</li>
-    </ul>
-  </section>
+    <section id="experience">
+        <h2>Professional Experience</h2>
+        <div class="card">
+            <h3>Role Title @ Company Name</h3>
+            <p><em>Month Year - Present</em></p>
+            <ul>
+                <li>Led a team to deliver high-impact data visualizations.</li>
+                <li>Optimized workflows, saving 10+ hours of manual work per week.</li>
+                <li>Collaborated with stakeholders to define key business metrics.</li>
+            </ul>
+        </div>
+    </section>
 
-  <section id="experience">
-    <h2>Experience</h2>
-    <h3>Senior BI & Data Analyst - Capita (2023–2025)</h3>
-    <p>Led migration from SAP to Power BI, delivered actionable insights, and improved data unity using Agile and Six Sigma approaches.</p>
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="grid">
+            
+            <div class="card">
+                <h3>Data Analysis & Insights</h3>
+                <p>Advanced analysis using Python and SQL to uncover business trends.</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
 
-    <h3>Business Insight Analyst - Capita (2018–2023)</h3>
-    <p>Drove stakeholder-informed data analysis and generated reports with measurable performance improvements.</p>
+            <div class="card">
+                <h3>BI Dashboards</h3>
+                <p>Visualizing complex data sets through Power BI and Tableau.</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
 
-    <h3>Team Manager - Capita (2012–2018)</h3>
-    <p>Led a 22-agent team to top performance through coaching, compliance, and workflow automation using VBA.</p>
-  </section>
+            <div class="card">
+                <h3>Automation Tools</h3>
+                <p>Custom scripts built to automate repetitive data entry tasks.</p>
+                <a href="#" class="btn">View Project</a>
+            </div>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project">
-      <h3>Customer Care Voucher Analysis</h3>
-      <p>Investigated increased costs after outsourcing, uncovered training gaps via SQL analysis, and implemented fixes that reduced goodwill spend.</p>
+        </div>
+    </section>
+
+    <div id="contact" class="contact-area">
+        <h2>Get In Touch</h2>
+        <p><i class="fas fa-envelope"></i> daniel.andrew@example.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> City, Country</p>
+        <p><i class="fab fa-linkedin"></i> linkedin.com/in/danielandrew</p>
     </div>
-    <div class="project">
-      <h3>NPS All-in-One Dashboard</h3>
-      <p>Built a fully interactive Power BI dashboard linking survey and telephony data with forecasting and correlation models to boost engagement.</p>
-    </div>
-    <div class="project">
-      <h3>Anonymous Agent Dashboard</h3>
-      <p>Created an agent performance tool with personalized views, enabling self-coaching while maintaining data privacy.</p>
-    </div>
-    <div class="project">
-      <h3>FCA Conduct Risk Dashboard</h3>
-      <p>Designed KPI dashboards for FCA compliance using automated data pipelines and conditional formatting for quick decision-making.</p>
-    </div>
-  </section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:danielbandrew@gmail.com">danielbandrew@gmail.com</a></p>
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/daniel-andrew-analyst" target="_blank">daniel-andrew-analyst</a></p>
-  </section>
+    <footer>
+        <p>&copy; 2024 Daniel Andrew. All rights reserved.</p>
+    </footer>
 
-  <footer>
-    <p>&copy; 2025 Daniel Andrew</p>
-  </footer>
 </body>
 </html>
