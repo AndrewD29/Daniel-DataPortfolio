@@ -158,6 +158,7 @@
             flex-direction: column;
             background-color: #0f172a;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
+            scroll-margin-top: 70px; /* Safety zone for scroll anchoring */
         }
 
         .section-title {
@@ -165,6 +166,7 @@
             font-weight: 800;
             margin-bottom: 40px;
             color: #ffffff;
+            width: 100%;
         }
 
         .section-title span {
@@ -177,6 +179,7 @@
             grid-template-columns: 1.1fr 0.9fr;
             gap: 50px;
             align-items: start;
+            width: 100%;
         }
 
         .about-text h3 {
@@ -360,5 +363,3 @@
         <!-- BUTTONS SECURELY RENDERED -->
         <div class="hero-badges">
             <div class="hero-badge"><i class="fas fa-database"></i> SQL Engine</div>
-            <div class="hero-badge"><i class="fas fa-chart-line"></i> Power BI</div>
-            <div class="hero-badge"><i class="fas fa-cloud"></i> Azure Cloud</div>
