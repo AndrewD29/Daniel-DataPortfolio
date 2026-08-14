@@ -92,13 +92,21 @@
         }
 
         .gallery-item { 
+            display: block; /* Ensures container fills grid cell natively */
             position: relative; 
             border-radius: 12px; 
             overflow: hidden; 
             height: 250px;
+            width: 100%;
         }
 
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        /* Fixed image behavior to explicitly scale and display properly */
+        .gallery-item img { 
+            display: block;
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+        }
 
         /* SIDEBAR DOTS - Fixed text overlay and added visibility constraints */
         nav { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 1000; }
