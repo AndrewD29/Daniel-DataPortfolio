@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Projects | Dan Andrew</title>
+
+    <style>
+        body {
+            background: #0f172a;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 1000px;
+            margin: auto;
+            padding: 60px 30px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        h2 {
+            margin-top: 60px;
+            color: #38bdf8;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #7dd3fc;
+            margin-top: 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background: #1e293b;
+            border-left: 3px solid #38bdf8;
+            padding: 16px 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e2e8f0;
+        }
+
+        .result-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #38bdf8;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #94a3b8;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Python Projects</h1>
+
+    <p style="color:#94a3b8;">
+        Automation, data engineering and reporting tools built with Python to reduce manual effort,
+        improve data quality and enhance reporting capabilities.
+    </p>
+
+    <!-- ===================== PROJECT 1 ===================== -->
+
+    <h2>Postcode Lookup Automation</h2>
+
+    <div>
+        <span class="tag">Python</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">API Integration</span>
+        <span class="tag">Data Engineering</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            Operational datasets frequently contained latitude and longitude coordinates but required
+            postcode data for reporting, mapping and geographic analysis. Looking up large volumes of records
+            manually was slow, repetitive and prone to error.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Create an automated process capable of enriching thousands of records with postcode information
+            and exporting the results directly back into Excel.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            Developed a Python solution using Pandas and the Postcodes.io API to process coordinate data in
+            bulk. The script imported Excel files, submitted requests automatically, tracked progress and
+            returned postcode information for each location.
+        </p>
+
+        <pre><code>df['Postcode'], df['Status'] = get_batch_postcodes(df)
+
+df.to_excel(
+    "bulk_postcode_results.xlsx",
+    index=False
+)</code></pre>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+
+        <div class="result-box">
+            <div class="stat">
+                <span class="stat-value">100%</span>
+                <span class="stat-label">Automated process</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-value">Minutes</span>
+                <span class="stat-label">Instead of hours</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-value">Reusable</span>
+                <span class="stat-label">For future datasets</span>
+            </div>
+        </div>
+
+        <p style="margin-top:15px;">
+            The solution removed a manual data enrichment task, improved consistency of location-based
+            reporting and enabled postcode-level analysis across operational datasets.
+        </p>
+    </div>
+
+    <!-- ===================== PROJECT 2 ===================== -->
+
+    <h2>Easting & Northing Conversion Tool</h2>
+
+    <div>
+        <span class="tag">Python</span>
+        <span class="tag">Geospatial</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Pandas</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            Engineering and asset datasets often contained British National Grid coordinates that were
+            difficult for business users to interpret and unsuitable for postcode-based reporting.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Build an automated process capable of converting Eastings and Northings into latitude,
+            longitude and postcode information.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            Developed a Python workflow using geospatial conversion libraries and postcode APIs to transform
+            engineering coordinates into meaningful location information. The process handled bulk datasets
+            and returned enriched outputs ready for analysis.
+        </p>
+
+        <pre><code>df[['Lat', 'Long']] = df.apply(
+    convert_bng_to_latlon,
+    axis=1
+)</code></pre>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+
+        <div class="result-box">
+            <div class="stat">
+                <span class="stat-value">Bulk</span>
+                <span class="stat-label">Dataset processing</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-value">Automated</span>
+                <span class="stat-label">Coordinate conversion</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-value">Improved</span>
+                <span class="stat-label">Location data quality</span>
+            </div>
+        </div>
+
+        <p style="margin-top:15px;">
+            The tool provided a repeatable geospatial enrichment process that saved time and improved the
+            usability of engineering and operational datasets.
+        </p>
+    </div>
+
+    <!-- ===================== PROJECT 3 ===================== -->
+
+    <h2>Power BI Documentation Generator</h2>
+
+    <div>
+        <span class="tag">Python</span>
+        <span class="tag">Power BI</span>
+        <span class="tag">PBIXRay</span>
+        <span class="tag">Data Governance</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            Power BI datasets can become increasingly difficult to support when documentation is incomplete
+            or out of date. Understanding relationships, measures and model structure often requires manual
+            review of the report.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Create a reusable utility capable of analysing PBIX files and automatically generating technical
+            documentation.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+
+        <p>
+            Developed a Python-based documentation generator using PBIXRay to extract metadata directly from
+            Power BI datasets. The tool automatically exported:
+        </p>
+
+        <ul>
+            <li>Tables</li>
+            <li>Columns</li>
+            <li>Relationships</li>
+            <li>KPIs</li>
+            <li>Model diagrams</li>
+            <li>Unused table analysis</li>
+            <li>Technical documentation files</li>
+        </ul>
+
+        <pre><code>model = PBIXRay(pbix_path)
+
+rel_df = model.relationships
+
+rel_df.to_csv(
+    "relationships.csv",
+    index=False
+)</code></pre>
+
+        <p>
+            The utility also generated Mermaid-compatible relationship diagrams and highlighted potentially
+            unused tables for optimisation review.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+
+        <div class="result-box">
+            <div class="stat">
+                <span class="stat-value">Automated</span>
+                <span class="stat-label">Documentation generation</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-value">Improved</span>
+                <span class="stat-label">Governance & supportability</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-value">Faster</span>
+                <span class="stat-label">Model reviews</span>
+            </div>
+        </div>
+
+        <p style="margin-top:15px;">
+            The solution reduced the effort required to understand and document Power BI models while
+            improving governance, handovers and opportunities for model optimisation.
+        </p>
+    </div>
+
+    <a href="index.html" class="back-btn">
+        Back to Portfolio
+    </a>
+
+</body>
+
+</html>
