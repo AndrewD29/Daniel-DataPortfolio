@@ -14,6 +14,7 @@
             max-width: 1000px;
             margin: auto;
             padding: 60px 30px;
+            line-height: 1.6;
         }
 
         h1 {
@@ -21,12 +22,66 @@
         }
 
         h2 {
-            margin-top: 40px;
+            margin-top: 60px;
             color: #38bdf8;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #7dd3fc;
+            margin-top: 30px;
         }
 
         .section {
             margin-bottom: 25px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background: #1e293b;
+            border-left: 3px solid #38bdf8;
+            padding: 16px 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e2e8f0;
+        }
+
+        .result-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #38bdf8;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #94a3b8;
         }
 
         .back-btn {
@@ -35,6 +90,242 @@
             background: #38bdf8;
             color: #0f172a;
             padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>SQL Projects</h1>
+    <p style="color:#94a3b8;">Data extraction, cleansing and root-cause analysis work using T-SQL against enterprise
+        data warehouses, joined with employee and operational data sources.</p>
+
+    <!-- ===================== PROJECT 1 ===================== -->
+    <h2>1. Customer Care Voucher (CCV) Outsourcing Review</h2>
+    <div>
+        <span class="tag">T-SQL</span>
+        <span class="tag">Excel / Power Query</span>
+        <span class="tag">Root Cause Analysis</span>
+        <span class="tag">Stakeholder Reporting</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            As part of an ongoing cost-reduction programme, a customer service channel was outsourced offshore
+            to reduce staffing costs. Shortly after, Customer Care Voucher (CCV) expenditure — money issued to
+            customers as goodwill or compensation — began rising. Stakeholders needed to understand whether the
+            outsourcing move itself was driving the increase.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Identify what CCV data existed, confirm it was usable, and build a case for whether the rise in
+            expenditure was linked to process or training changes introduced by outsourcing — then present
+            findings and recommendations to stakeholders.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            Wrote T-SQL to extract 36 months of voucher data and joined it to the employee database to bring
+            the analysis down to agent level:
+        </p>
+
+        <pre><code>DECLARE @StartDate DATETIME
+DECLARE @EndDate   DATETIME
+
+SET @StartDate = CONVERT(DATETIME, FLOOR(CONVERT(FLOAT, GETDATE()-1096)))
+SET @EndDate   = CONVERT(DATETIME, FLOOR(CONVERT(FLOAT, GETDATE())))
+-- strips the time element and sets a 36-month lookback window
+
+SELECT
+    [VoucherNumber],
+    [VoucherType],
+    [BranchNumber],
+    [IssueDate],
+    [TOTAL],
+    [VoucherReasonCode],
+    [EmployeeCode],
+    [VoucherReasonDescription],
+    emp.Agent_Name,
+    emp.MU_NAME,
+    emp.ManagerName,
+    emp.PMU_NAME
+FROM [DWH].[dbo].[t_CCV_Daily]
+LEFT JOIN [EmployeeTTV].[dbo].[t_EmployeeFlat_forView] emp
+    ON  IssueDate    = emp.emp_date
+    AND EmployeeCode = emp.ID_PIE
+WHERE [IssueDate] BETWEEN @StartDate AND @EndDate
+    AND PMU_NAME LIKE 'Cust%'   -- filter applied in SQL, not in Excel</code></pre>
+
+        <p>
+            The output was peer-reviewed for accuracy (standard practice for financial data), then cleansed in
+            three passes: sorting descending to flag high-value vouchers over £100 that needed manager sign-off
+            and would skew trends, conditional formatting to catch duplicates, and header-level filtering to
+            catch incomplete rows.
+        </p>
+        <p>
+            Two calculated columns were added — a Month/Year grouping field and a flag combining voucher value
+            and notes text to identify goodwill gestures — before the data went into a pivot table and time
+            series chart plotted against key events (offshoring go-live, iPhone launch, Christmas peak).
+        </p>
+        <p>
+            Raw voucher totals alone weren't conclusive, since call volume could also have risen, so I pulled
+            answered-call volumes and calculated a Cost Per Call (CPC) metric to normalise for volume. That's
+            what turned the trend into a real finding — see Results below.
+        </p>
+        <p>
+            Working with the change management team confirmed the timing lined up with the outsourcing go-live.
+            Following up with the offshore operations team surfaced the actual root cause: agents were working
+            from a knowledge-base article that authorised vouchers "up to £50" for complaints, but it was being
+            read and applied as a flat £50 entitlement rather than a ceiling.
+        </p>
+        <p>
+            Sitting in on live calls with a small group of offshore agents surfaced a second contributing
+            factor — a currency disconnect. Agents working in Rand didn't have an intuitive feel for what a
+            GBP voucher value represented. To fix this without a full system change, I designed a live currency
+            conversion display for their call logging screen, showing the GBP amount converted to Rand in real
+            time and flashing red if an agent approached or exceeded their authorisation limit.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+        <div class="result-box">
+            <div class="stat">
+                <span class="stat-value">+62%</span>
+                <span class="stat-label">YoY rise in CCV spend</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">£0.74 → £1.62</span>
+                <span class="stat-label">Cost Per Call</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">2 root causes</span>
+                <span class="stat-label">knowledge-base wording + currency literacy</span>
+            </div>
+        </div>
+        <p style="margin-top:15px;">
+            The findings were presented to key stakeholders with a chart-led narrative rather than raw tables,
+            with built-in check-ins through the presentation to confirm the message was landing. The outcome
+            reframed what looked like an agent-performance problem as a training and system-design issue —
+            authorisation limits and the knowledge-base wording were corrected, the currency-awareness fix was
+            actioned, and follow-up team briefings were run to close the loop.
+        </p>
+    </div>
+
+    <!-- ===================== PROJECT 2 ===================== -->
+    <h2>2. NPS All-in-One Dashboard — Data Integration</h2>
+    <div>
+        <span class="tag">T-SQL</span>
+        <span class="tag">Excel Formulas</span>
+        <span class="tag">Data Matching</span>
+        <span class="tag">Power BI</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            A client was rolling out a new third-party NPS (Net Promoter Score) survey tool to capture customer
+            feedback, but the survey data on its own only told half the story — it had no link back to which
+            agent handled the call or how that call actually went.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Build a dashboard giving Department, Team Leader and Agent-level visibility of NPS performance —
+            which meant first solving a data problem: stitching third-party survey data to internal telephony
+            data with no shared key to join on.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            Working from a sample of 250 customer surveys (identifiers, question responses and verbatim
+            comments), I wrote T-SQL against the telephony platform to pull the matching call history for the
+            same date range:
+        </p>
+
+        <pre><code>DECLARE @StartDate AS DATETIME = '1 Sep 2021'
+DECLARE @EndDate   AS DATETIME = '25 Sep 2021'
+
+SELECT
+    -- ~30 telephony columns: call timestamps, agent ID, disposition, etc.
+FROM [srcICM_Avaya].[dbo].[t_AVAYA_EXTERNAL_CALL_HISTORY] AS AE WITH (NOLOCK)
+LEFT JOIN dtEmployee.[dbo].[t_Employeeflat] AS emp
+    ON emp.ID_ICM   = CAST(AE.ANSLOGIN AS VARCHAR(20))
+   AND emp.Emp_Date = CONVERT(DATETIME, FLOOR(CONVERT(FLOAT, AE.SEGSTART)))
+WHERE CONVERT(DATETIME, FLOOR(CONVERT(FLOAT, SEGSTART))) BETWEEN @StartDate AND @EndDate
+    AND mu_id IN ('152','135')
+    AND DISPOSITION = 2      -- 1 = outbound, 2 = inbound, 3 = abandoned
+ORDER BY SEGSTART DESC</code></pre>
+
+        <p>
+            With no common key between the survey export and the telephony extract, I built a fuzzy match in
+            Excel — narrowing on caller ID plus a call-start time falling inside each call's start/end window —
+            to pull across agent name, agent ID and call timing:
+        </p>
+
+        <pre><code>=MINIFS(ECHI!B:B, ECHI!A:A, A2, ECHI!F:F, F2, ECHI!V:V, "<="&B2, ECHI!W:W, ">="&B2)   ' matching call ID
+=IFERROR(INDEX(ECHI!G:G, MATCH($N2, ECHI!$B:$B, 0)), "")                              ' pulls linked fields</code></pre>
+
+        <p>
+            I validated match quality manually — sampling 100 calls, listening back against the survey record —
+            and confirmed 92% accuracy, comfortably inside the 80% margin agreed for the project. I also built a
+            keyword-search flag against the verbatim comments (<code>SEARCH</code> across a list of phrases like
+            "disconnected" / "hung up") to tag survey responses where the call may have dropped before
+            completion, addressing a second requirement raised by stakeholders.
+        </p>
+        <p>
+            Once the combined dataset was clean, it fed a Power BI model with Department, Team Leader and Agent
+            views (NPS/CSS gauges, FCR breakdown, and ranked agent tables), plus two forecasting layers — a CSS
+            score forecast and an AHT forecast — and two regression models testing whether survey volume or
+            agent knowledge scores correlated with NPS.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+        <div class="result-box">
+            <div class="stat">
+                <span class="stat-value">92%</span>
+                <span class="stat-label">match accuracy vs. 80% target</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">R² = 0.51</span>
+                <span class="stat-label">Knowledge score vs. NPS</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">R² = 0.16</span>
+                <span class="stat-label">Survey volume vs. CSS (rejected)</span>
+            </div>
+        </div>
+        <p style="margin-top:15px;">
+            The regression work ruled out survey volume as a driver of CSS score, but found a real relationship
+            between agent knowledge/expertise scores and NPS — insight the client's training team picked up to
+            build a targeted coaching plan. The dashboard and underlying data pipeline were handed over
+            future-proofed: any future data drop into the shared OneDrive folder refreshes the model without
+            manual rework.
+        </p>
+    </div>
+
+<a href="index.html" class="back-btn">
+    Back to Portfolio
+</a>
+
+</body>
+</html>            padding: 12px 24px;
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
