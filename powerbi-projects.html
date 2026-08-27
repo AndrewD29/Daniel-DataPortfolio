@@ -1,0 +1,399 @@
+<!DOCTYPE html> 
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power BI Projects | Daniel Andrew</title>
+
+    <style>
+        body {
+            background: #0f172a;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 1000px;
+            margin: auto;
+            padding: 60px 30px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        h2 {
+            margin-top: 60px;
+            color: #38bdf8;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #7dd3fc;
+            margin-top: 30px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1e293b;
+            color: #38bdf8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        pre {
+            background: #1e293b;
+            border-left: 3px solid #38bdf8;
+            padding: 16px 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e2e8f0;
+        }
+
+        .result-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #38bdf8;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #94a3b8;
+        }
+
+        .view-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .view-list li {
+            background: #1e293b;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+        }
+
+        .view-list b {
+            color: #38bdf8;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Power BI Projects</h1>
+    <p style="color:#94a3b8;">Dashboard builds spanning data modelling, DAX, forecasting and regression analysis
+        for client-facing reporting.</p>
+
+    <!-- ===================== PROJECT: NPS DASHBOARD ===================== -->
+    <h2>NPS All-in-One Dashboard</h2>
+    <div>
+        <span class="tag">Power BI</span>
+        <span class="tag">DAX</span>
+        <span class="tag">Power Query</span>
+        <span class="tag">Forecasting</span>
+        <span class="tag">Regression</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            A client was rolling out a new third-party NPS (Net Promoter Score) survey tool to capture customer
+            feedback on brand loyalty and likelihood to recommend, but had no way to view performance broken
+            down by Department, Team Leader or Agent.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Build an interactive "All-in-One" (AIO) Power BI dashboard giving every level of the client's
+            hierarchy visibility of their NPS performance, with an email-screenshot fallback via Power Query
+            for anyone without direct Power BI access.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            Before any dashboard work could start, the survey data needed enriching — it had no link back to
+            which agent handled each call or how that call went. I sourced and joined internal telephony data
+            to the survey export (matching on caller ID and call timing, since there was no shared key),
+            validated the match at 92% accuracy against a 100-call manual sample, and added a keyword-search
+            flag to catch dropped-call verbatims. Full detail on that data pipeline is on the
+            <a href="sql-projects.html" style="color:#38bdf8;">SQL Projects page</a>.
+        </p>
+        <p>
+            With a clean, joined dataset, I set up a shared OneDrive folder as the ingestion point so the model
+            would future-proof itself — any team member could drop a new extract in and Power BI would pick it
+            up. In Power Query, I promoted headers, corrected date/time typing, renamed columns for clarity, and
+            added conditional columns to convert text ratings into numeric scores:
+        </p>
+
+        <pre><code>= Table.AddColumn(#"Renamed Columns", "CSS Score", each
+    if [CSS] = "V. Satisfied" then 100
+    else if [CSS] = "Satisfied" then 75
+    else if [CSS] = "Neutral" then 50
+    else if [CSS] = "Dissatisfied" then 0
+    else if [CSS] = "V. Dissatisfied" then 0
+    else null)</code></pre>
+
+        <p>Once the model was in place, I built three views tailored to different audiences:</p>
+
+        <ul class="view-list">
+            <li><b>Department Summary</b> — NPS and CSS gauge charts against target lines, an FCR donut, and a
+                top-level slicer.</li>
+            <li><b>Team Manager view</b> — CSS as a month-on-month bar chart, an NPS gauge, an FCR donut, and
+                slicers for team and week commencing.</li>
+            <li><b>Agent CSS view</b> — a ranked table (score, NPS, FCR, survey count, dropped-call count) built
+                on new DAX measures, plus a verbatim comments table with score filtering.</li>
+        </ul>
+
+        <pre><code>Rank = RANKX(
+    ALLSELECTED('Survey (All)'[Agent Name]),
+    CALCULATE(SUM('Survey (All)'[CSS Score])),
+    , DESC
+)
+
+FCR Score = DIVIDE(SUM('Survey (All)'[FCR Score]), SUM('Survey (All)'[FCR Count])) * 100</code></pre>
+
+        <p>
+            Following stakeholder review, two extra requests came in: a CSS score forecast, an AHT
+            (Average Handling Time) forecast, and two correlation checks — survey volume vs. score, and agent
+            knowledge/expertise vs. NPS.
+        </p>
+        <p>
+            For CSS, I used Power BI's built-in forecast visual (5-month horizon, 90% confidence per the
+            client's spec) and held back the last month of actuals to visually validate forecast accuracy. For
+            AHT — built in Excel during a Power BI outage — I used exponential smoothing:
+        </p>
+
+        <pre><code>Forecast: =FORECAST.ETS(A17, $B$2:$B$16, $A$2:$A$16, 1, 1)
+Lower: =E17-FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)
+Upper: =E17+FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)</code></pre>
+
+        <p>
+            For the correlation work, I used Power BI's Correlation Coefficient quick measure alongside RMS
+            Error and a P-value, rather than relying on a scatter chart alone — the visual pattern for survey
+            volume vs. CSS looked ambiguous, and the statistics confirmed it wasn't a real relationship. For
+            knowledge/expertise vs. NPS, the same approach confirmed a genuine one, and I calculated the
+            regression coefficient to show the client the expected NPS gain per point of knowledge-score
+            improvement.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+        <div class="result-box">
+            <div class="stat">
+                <span class="stat-value">R² = 0.51</span>
+                <span class="stat-label">Knowledge score vs. NPS (confirmed)</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">R² = 0.16</span>
+                <span class="stat-label">Survey volume vs. CSS (rejected)</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">5.4 pts</span>
+                <span class="stat-label">est. NPS gain per knowledge-score unit</span>
+            </div>
+        </div>
+        <p style="margin-top:15px;">
+            The published dashboard gave the client self-serve visibility across Department, Team Leader and
+            Agent levels for the first time. The regression findings were the standout outcome — they ruled out
+            survey volume as a lever worth chasing and instead gave the client's training team a concrete,
+            quantified case for investing in agent knowledge and expertise. The AHT forecast was picked up by
+            the planning team for further development, extending the reach of the work beyond the original
+            brief.
+        </p>
+    </div>
+
+    <!-- ===================== PROJECT: ANONYMOUS AGENT DASHBOARD ===================== -->
+    <h2>Anonymous Agent Dashboard</h2>
+    <div>
+        <span class="tag">Power BI</span>
+        <span class="tag">DAX</span>
+        <span class="tag">Row-Level Personalisation</span>
+        <span class="tag">Data Modelling</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            While monitoring performance, I noticed dips at agent level that weren't showing up in the
+            overall numbers. A conversation with team managers surfaced a separate, related problem — they
+            were struggling to pull all the data they needed for performance reviews and 1-2-1s into one
+            place, relying on manual admin across multiple sources.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Build an agent-level dashboard pulling together the relevant sources from our data catalogue —
+            SAP (B04), AWS, Neqqoo and Qualtrics — that would give agents visibility of their own performance
+            against target and give managers a single, accurate source for reviews.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            I started by scoping the available data for quality and completeness, then ran SME sessions to
+            confirm the sources and approach were feasible and get buy-in before building. Data was brought
+            into Power BI via SharePoint so it would refresh continuously without disrupting the live
+            dashboard, with relationships between sources kept to many-to-one or one-to-one wherever possible
+            to limit the risk of data errors.
+        </p>
+        <p>
+            Design was deliberately made engaging rather than a flat table — after confirming required KPIs
+            with team managers, I built a month-on-month view so agents could see their own progression. When
+            a second department needed adding, I used a grouping table so the same visual could dynamically
+            swap which KPI set it displayed based on department selection, rather than duplicating pages:
+        </p>
+
+        <pre><code>Table Change = {
+    ("% Sales Conversion", NAMEOF('AWS - Agent'[% Sales Conversion]), 0),
+    ("TCHT", NAMEOF('AWS - Agent'[TCHT]), 1),
+    ("Avg Hold Time", NAMEOF('AWS - Agent'[Avg Hold Time]), 2),
+    ("Avg Wrap Time", NAMEOF('AWS - Agent'[Avg Wrap Time]), 3),
+    ("Transfer %", NAMEOF('AWS - Agent'[Transfer %]), 4),
+    -- ...additional KPI mappings for the second department's metric set
+}</code></pre>
+
+        <p>
+            The key design requirement was accountability without exposing colleagues' performance to each
+            other. I hid agent identities behind a generated index, then used a measure keyed off the signed-in
+            user's principal name so only the viewer's own row would resolve to a real name — everyone else's
+            row in the comparison stayed anonymised:
+        </p>
+
+        <pre><code>Employee Hidden ID = "User" & [EmployeeIndex]
+
+Current User =
+IF(
+    [TCHT] && SELECTEDVALUE('Verint - Agent Activity - Grouped'[PNumber]) = USERPRINCIPALNAME(),
+    SELECTEDVALUE('Verint - Agent Activity - Grouped'[Employee Name])
+)</code></pre>
+
+        <p>
+            That let each agent see exactly where they stood against the wider team without turning the
+            dashboard into a public leaderboard.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+        <p>
+            After SME and team manager sign-off, the dashboard was published to the full agent population,
+            with team managers running training sessions to introduce it since Power BI was new to most of
+            that audience. It remains in active use, giving agents direct ownership of their own performance
+            data for the first time.
+        </p>
+    </div>
+
+    <!-- ===================== PROJECT: FCA CONDUCT RISK ===================== -->
+    <h2>FCA Conduct Risk Dashboard</h2>
+    <div>
+        <span class="tag">Power BI</span>
+        <span class="tag">Power Query</span>
+        <span class="tag">Regulatory Reporting</span>
+        <span class="tag">RAG Status</span>
+    </div>
+
+    <div class="section">
+        <h3>Situation</h3>
+        <p>
+            As an FCA-regulated business, we needed a clear, defensible way to demonstrate monthly adherence
+            to contractual KPIs — for internal senior management and for the regulator itself.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Task</h3>
+        <p>
+            Produce a dashboard robust enough to withstand scrutiny from senior management and regulatory
+            bodies, starting with the telecommunications part of the business.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Action</h3>
+        <p>
+            I set up an automated export of the source data from SAP (B04) into a secure SharePoint location
+            to remove manual steps that could introduce errors, then optimised the Power Query load to keep
+            the report fast — trimming to only the columns needed, filtering the date range to the last
+            3–6 months, and pushing transformations back to the source via query folding where possible rather
+            than processing them in Power BI.
+        </p>
+        <p>
+            Every KPI was validated in a table before going live: any figure that looked abnormal was traced
+            back to either a measure (checked against the supplied calculation documentation) or a column
+            (checked for formatting and source issues). Conditional RAG (red/amber/green) formatting was then
+            applied across the board for an at-a-glance achieved/missed view, with Country, Site and Department
+            slicers and three headline KPI cards showing month-on-month movement.
+        </p>
+        <p>
+            Once live, two other business areas — Energy and Broadband — asked for the same treatment, having
+            previously tracked this manually in Excel. Building it directly in Power BI ran into a data-access
+            constraint (analysts are restricted to the clients they work on), so as an interim solution each
+            analyst updated a shared Excel sheet that Power BI then pulled in — agreed as a stop-gap until the
+            underlying access/security question could be resolved properly. With three companies now in one
+            dashboard, I added a front page with navigation buttons per business area, and a Thresholds table
+            (KPI, target, client vs. self-measured, and consequence of a miss) to make the "why" behind each
+            RAG rating transparent to reviewers.
+        </p>
+    </div>
+
+    <div class="section">
+        <h3>Result</h3>
+        <p>
+            The dashboard was rolled out across all three regulated business areas in a single, uniform tool
+            rather than three separate manual processes, giving stakeholders and reviewers a consistent,
+            future-proofed view as KPIs change over time — with the added Thresholds table giving full
+            traceability from RAG status back to the underlying rule and consequence.
+        </p>
+    </div>
+
+<a href="index.html" class="back-btn">
+    Back to Portfolio
+</a>
+
+</body>
+</html>
+
