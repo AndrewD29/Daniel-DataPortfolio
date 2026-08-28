@@ -1,0 +1,97 @@
+<!-- ===================== PROJECT: NMS PIPELINE OPTIMISATION ===================== -->
+
+<h2>Azure Data Factory Pipeline Optimisation & Power BI Refresh Automation</h2>
+
+<div>
+    <span class="tag">Azure Data Factory</span>
+    <span class="tag">Power BI</span>
+    <span class="tag">Azure SQL</span>
+    <span class="tag">Key Vault</span>
+    <span class="tag">REST API</span>
+</div>
+
+<div class="section">
+    <h3>Situation</h3>
+    <p>
+        An operational Power BI report relied on data loaded through an Azure Data Factory pipeline from the
+        Network Management System (NMS). Dataset refreshes occasionally overlapped with data ingestion and
+        warehouse loading activities, resulting in refresh failures, incomplete reporting data and support
+        investigations.
+    </p>
+</div>
+
+<div class="section">
+    <h3>Task</h3>
+    <p>
+        Modify the existing Azure Data Factory orchestration so Power BI datasets would only refresh after
+        all data ingestion and warehouse loading processes had completed successfully, reducing refresh timing
+        clashes and improving report reliability.
+    </p>
+</div>
+
+<div class="section">
+    <h3>Action</h3>
+    <p>
+        Enhanced the existing Azure Data Factory pipeline by introducing end-to-end orchestration across
+        source ingestion, warehouse loading and Power BI reporting processes. Pipeline execution was logged
+        at both start and end points to improve monitoring and troubleshooting.
+    </p>
+
+    <p>
+        After the NMS ingestion process completed successfully, a warehouse loading stored procedure was
+        executed to populate the reporting dimension tables. Only once this process had completed was a
+        Power BI dataset refresh triggered through the Power BI REST API.
+    </p>
+
+    <p>
+        Authentication was secured using a Service Principal, with credentials retrieved from Azure Key
+        Vault rather than embedded directly in the pipeline. Failure handling was also introduced to prevent
+        downstream activities running when upstream stages had failed.
+    </p>
+
+    <pre><code>{
+    "name": "Refresh_Power BI Report",
+    "type": "WebActivity",
+    "dependsOn": [
+        {
+            "activity": "calling usp_load_dim_nms_incident",
+            "dependencyConditions": [
+                "Succeeded"
+            ]
+        }
+    ]
+}</code></pre>
+
+    <p>
+        The solution ensured Power BI refreshes were executed only after the latest warehouse data was fully
+        available, providing better alignment between operational and reporting processes.
+    </p>
+</div>
+
+<div class="section">
+    <h3>Result</h3>
+
+    <div class="result-box">
+        <div class="stat">
+            <span class="stat-value">Reduced</span>
+            <span class="stat-label">Refresh timing clashes</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-value">Improved</span>
+            <span class="stat-label">Dataset reliability</span>
+        </div>
+
+        <div class="stat">
+            <span class="stat-value">Secured</span>
+            <span class="stat-label">Authentication via Key Vault</span>
+        </div>
+    </div>
+
+    <p style="margin-top:15px;">
+        The enhanced pipeline provided a more reliable reporting process by ensuring Power BI datasets were
+        refreshed using completed and validated warehouse data. This reduced operational support effort,
+        improved confidence in reporting outputs and demonstrated integration across Azure Data Factory,
+        Azure SQL, Azure Key Vault and Power BI.
+    </p>
+</div>
