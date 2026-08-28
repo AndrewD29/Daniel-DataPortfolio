@@ -13,7 +13,7 @@
 <div class="section">
     <h3>Situation</h3>
     <p>
-        An operational Power BI report relied on data loaded through an Azure Data Factory pipeline from the
+        An operational Power BI report refreshed every 30 minutes and relied on data loaded through an Azure Data Factory pipeline from the
         Network Management System (NMS). Dataset refreshes occasionally overlapped with data ingestion and
         warehouse loading activities, resulting in refresh failures, incomplete reporting data and support
         investigations.
@@ -23,7 +23,7 @@
 <div class="section">
     <h3>Task</h3>
     <p>
-        Modify the existing Azure Data Factory orchestration so Power BI datasets would only refresh after
+        Modify the existing Azure Data Factory pipeline so Power BI datasets would only refresh after
         all data ingestion and warehouse loading processes had completed successfully, reducing refresh timing
         clashes and improving report reliability.
     </p>
