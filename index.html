@@ -1,3 +1,14 @@
+IMPORTANT: This email has been sent from outside SP Electricity North West. Be careful when opening attachments or clic͏‌͏
+ⓘ 
+
+	External email 
+❯ 
+
+
+
+
+IMPORTANT: This email has been sent from outside SP Electricity North West. Be careful when opening attachments or clicking on links - especially when you are not expecting them. If the message is suspicious, use the ‘Report Phishing’ button.
+
 <!DOCTYPE HTML> 
 <html lang="en">
 <head>
@@ -131,12 +142,23 @@
             color: #38bdf8;
             border: 2px solid #38bdf8;
             box-shadow: none;
-            margin-left: 15px;
         }
 
         .cta-btn.secondary:hover {
             background-color: rgba(56, 189, 248, 0.1);
             transform: translateY(-2px);
+        }
+
+        /* ROW WRAPPER — keeps both CTA buttons side by side inside the column-flex hero */
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .cta-row .cta-btn {
+            margin-bottom: 0;
         }
 
         /* TECH BADGE COMPONENT SYSTEM */
@@ -335,8 +357,10 @@
         <p>Data and Business Intelligence Professional with proven experience leading analytical teams, managing data functions, and delivering business transformation through insight-led reporting, automation, and continuous improvement initiatives.</p>
         
         <!-- TARGET CALL TO ACTION LINK BUTTON -->
-        <a href="#projects" class="cta-btn">Explore Live Dashboards</a>
-        <a href="Daniel_Andrew_BI_Developer_CV.pdf" class="cta-btn secondary" download>Download CV</a>
+        <div class="cta-row">
+            <a href="#projects" class="cta-btn">Explore Live Dashboards</a>
+            <a href="Daniel_Andrew_BI_Developer_CV.pdf" class="cta-btn secondary" download>Download CV</a>
+        </div>
         
         <!-- RENDER SAFE TECH EMBED LABELS -->
 <div class="hero-badges">
@@ -369,14 +393,42 @@
                 <p>
                     I am a Business Intelligence Developer and Data Leader with a background spanning over 20 years in Data Analytics, Continuous Improvement, and Team Management. Passionate about translating complex business challenges into intuitive reporting, automated processes, and actionable insights that deliver accurate quantifiable business value.
                     <br><br>
-
-                    <!-- ⚠️ CONTENT BELOW THIS LINE WAS NOT RECEIVED — the paste/upload cut off here both times.
-                         Everything above (head, styles, header, intro/hero section including the new CV button)
-                         is complete and safe to use as-is. Paste the rest of your original file's body content
-                         (from here down: remainder of About, Skills grid, Projects gallery, Footer, and closing
-                         </body></html> tags) back in below this comment, or send me the file again and I'll merge it. -->
-
                 </p>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fas fa-chart-line"></i>
+                    <p>Power BI</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-database"></i>
+                    <p>SQL / T-SQL</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-cloud"></i>
+                    <p>Azure Data Factory</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-layer-group"></i>
+                    <p>Azure Synapse</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-code"></i>
+                    <p>Python</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-table"></i>
+                    <p>Power Query &amp; DAX</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-bolt"></i>
+                    <p>Power Automate</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-bullseye"></i>
+                    <p>Six Sigma</p>
+                </div>
             </div>
         </div>
     </section>
