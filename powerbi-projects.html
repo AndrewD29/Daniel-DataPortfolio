@@ -143,7 +143,7 @@
         <h3>Task</h3>
         <p>
             Build an interactive "All-in-One" (AIO) Power BI dashboard giving every level of the client's
-            hierarchy visibility of their NPS performance, with an email-screenshot fallback via Power Query
+            hierarchy visibility of their NPS performance, with an email screenshot fallback via Power Query
             for anyone without direct Power BI access.
         </p>
     </div>
@@ -151,16 +151,16 @@
     <div class="section">
         <h3>Action</h3>
         <p>
-            Before any dashboard work could start, the survey data needed enriching — it had no link back to
+            Before any dashboard work could start, the survey data needed enriching it had no link back to
             which agent handled each call or how that call went. I sourced and joined internal telephony data
             to the survey export (matching on caller ID and call timing, since there was no shared key),
-            validated the match at 92% accuracy against a 100-call manual sample, and added a keyword-search
+            validated the match at 92% accuracy against a 100 call manual sample, and added a keyword-search
             flag to catch dropped-call verbatims. Full detail on that data pipeline is on the
             <a href="sql-projects.html" style="color:#38bdf8;">SQL Projects page</a>.
         </p>
         <p>
             With a clean, joined dataset, I set up a shared OneDrive folder as the ingestion point so the model
-            would future-proof itself — any team member could drop a new extract in and Power BI would pick it
+            would future-proof itself any team member could drop a new extract in and Power BI would pick it
             up. In Power Query, I promoted headers, corrected date/time typing, renamed columns for clarity, and
             added conditional columns to convert text ratings into numeric scores:
         </p>
@@ -194,13 +194,13 @@ FCR Score = DIVIDE(SUM('Survey (All)'[FCR Score]), SUM('Survey (All)'[FCR Count]
 
         <p>
             Following stakeholder review, two extra requests came in: a CSS score forecast, an AHT
-            (Average Handling Time) forecast, and two correlation checks — survey volume vs. score, and agent
+            (Average Handling Time) forecast, and two correlation checks survey volume vs. score, and agent
             knowledge/expertise vs. NPS.
         </p>
         <p>
             For CSS, I used Power BI's built-in forecast visual (5-month horizon, 90% confidence per the
             client's spec) and held back the last month of actuals to visually validate forecast accuracy. For
-            AHT — built in Excel during a Power BI outage — I used exponential smoothing:
+            AHT — built in Excel during a Power BI outage I used exponential smoothing:
         </p>
 
         <pre><code>Forecast: =FORECAST.ETS(A17, $B$2:$B$16, $A$2:$A$16, 1, 1)
@@ -209,7 +209,7 @@ Upper: =E17+FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)</code>
 
         <p>
             For the correlation work, I used Power BI's Correlation Coefficient quick measure alongside RMS
-            Error and a P-value, rather than relying on a scatter chart alone — the visual pattern for survey
+            Error and a P-value, rather than relying on a scatter chart alone the visual pattern for survey
             volume vs. CSS looked ambiguous, and the statistics confirmed it wasn't a real relationship. For
             knowledge/expertise vs. NPS, the same approach confirmed a genuine one, and I calculated the
             regression coefficient to show the client the expected NPS gain per point of knowledge-score
@@ -235,7 +235,7 @@ Upper: =E17+FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)</code>
         </div>
         <p style="margin-top:15px;">
             The published dashboard gave the client self-serve visibility across Department, Team Leader and
-            Agent levels for the first time. The regression findings were the standout outcome — they ruled out
+            Agent levels for the first time. The regression findings were the standout outcome they ruled out
             survey volume as a lever worth chasing and instead gave the client's training team a concrete,
             quantified case for investing in agent knowledge and expertise. The AHT forecast was picked up by
             the planning team for further development, extending the reach of the work beyond the original
@@ -256,7 +256,7 @@ Upper: =E17+FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)</code>
         <h3>Situation</h3>
         <p>
             While monitoring performance, I noticed dips at agent level that weren't showing up in the
-            overall numbers. A conversation with team managers surfaced a separate, related problem — they
+            overall numbers. A conversation with team managers surfaced a separate, related problem they
             were struggling to pull all the data they needed for performance reviews and 1-2-1s into one
             place, relying on manual admin across multiple sources.
         </p>
@@ -266,7 +266,7 @@ Upper: =E17+FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)</code>
         <h3>Task</h3>
         <p>
             Build an agent-level dashboard pulling together the relevant sources from our data catalogue —
-            SAP (B04), AWS, Neqqoo and Qualtrics — that would give agents visibility of their own performance
+            SAP (B04), AWS, Neqqoo and Qualtrics that would give agents visibility of their own performance
             against target and give managers a single, accurate source for reviews.
         </p>
     </div>
@@ -299,7 +299,7 @@ Upper: =E17+FORECAST.ETS.CONFINT(A17, $B$2:$B$16, $A$2:$A$16, 0.95, 1, 1)</code>
         <p>
             The key design requirement was accountability without exposing colleagues' performance to each
             other. I hid agent identities behind a generated index, then used a measure keyed off the signed-in
-            user's principal name so only the viewer's own row would resolve to a real name — everyone else's
+            user's principal name so only the viewer's own row would reveal to a real name everyone else's
             row in the comparison stayed anonymised:
         </p>
 
@@ -339,8 +339,8 @@ IF(
     <div class="section">
         <h3>Situation</h3>
         <p>
-            As an FCA-regulated business, we needed a clear, defensible way to demonstrate monthly adherence
-            to contractual KPIs — for internal senior management and for the regulator itself.
+            As an FCA regulated business, we needed a clear, defensible way to demonstrate monthly adherence
+            to contractual KPIs for internal senior management and for the regulator itself.
         </p>
     </div>
 
@@ -357,7 +357,7 @@ IF(
         <p>
             I set up an automated export of the source data from SAP (B04) into a secure SharePoint location
             to remove manual steps that could introduce errors, then optimised the Power Query load to keep
-            the report fast — trimming to only the columns needed, filtering the date range to the last
+            the report fast trimming to only the columns needed, filtering the date range to the last
             3–6 months, and pushing transformations back to the source via query folding where possible rather
             than processing them in Power BI.
         </p>
@@ -369,12 +369,12 @@ IF(
             slicers and three headline KPI cards showing month-on-month movement.
         </p>
         <p>
-            Once live, two other business areas — Energy and Broadband — asked for the same treatment, having
-            previously tracked this manually in Excel. Building it directly in Power BI ran into a data-access
+            Once live, two other business areas Energy and Broadband asked for the same treatment, having
+            previously tracked this manually in Excel. Building it directly in Power BI ran into a data access
             constraint (analysts are restricted to the clients they work on), so as an interim solution each
-            analyst updated a shared Excel sheet that Power BI then pulled in — agreed as a stop-gap until the
+            analyst updated a shared Excel sheet that Power BI then pulled in agreed as a stop-gap until the
             underlying access/security question could be resolved properly. With three companies now in one
-            dashboard, I added a front page with navigation buttons per business area, and a Thresholds table
+            dashboard, I added a front page with navigation buttons per business areaand RLS security, and a Thresholds table
             (KPI, target, client vs. self-measured, and consequence of a miss) to make the "why" behind each
             RAG rating transparent to reviewers.
         </p>
@@ -385,7 +385,7 @@ IF(
         <p>
             The dashboard was rolled out across all three regulated business areas in a single, uniform tool
             rather than three separate manual processes, giving stakeholders and reviewers a consistent,
-            future-proofed view as KPIs change over time — with the added Thresholds table giving full
+            future-proofed view as KPIs change over time with the added Thresholds table giving full
             traceability from RAG status back to the underlying rule and consequence.
         </p>
     </div>
