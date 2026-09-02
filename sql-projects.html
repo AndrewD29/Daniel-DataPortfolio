@@ -101,7 +101,7 @@
 <body>
 
     <h1>SQL Projects</h1>
-    <p style="color:#94a3b8;">Data extraction, cleansing and root-cause analysis work using T-SQL against enterprise
+    <p style="color:#94a3b8;">Data extraction, cleansing and root cause analysis work using T-SQL against enterprise
         data warehouses, joined with employee and operational data sources.</p>
 
     <!-- ===================== PROJECT 1 ===================== -->
@@ -116,9 +116,9 @@
     <div class="section">
         <h3>Situation</h3>
         <p>
-            As part of an ongoing cost reduction programme, a customer service channel was outsourced offshore
+            As part of an ongoing cost reduction mandate, a customer service channel was offshored
             to reduce staffing costs. Shortly after, Customer Care Voucher (CCV) expenditure issued to
-            customers as goodwill or compensation began rising. Stakeholders needed to understand whether the
+            customers as goodwill or compensation began rising significantly. Stakeholders needed to understand whether the
             outsourcing move itself was driving the increase.
         </p>
     </div>
@@ -171,28 +171,28 @@ WHERE [IssueDate] BETWEEN @StartDate AND @EndDate
         <p>
             The output was peer-reviewed for accuracy (standard practice for financial data), then cleansed in
             three passes: sorting descending to flag high-value vouchers over £100 that needed manager sign-off
-            and would skew trends, conditional formatting to catch duplicates, and header-level filtering to
-            catch incomplete rows.
+            and would skew trends, conditional formatting to catch duplicates, header-level filtering to
+            catch incomplete rows and mean value for before and after offshoreing.
         </p>
         <p>
-            Two calculated columns were added — a Month/Year grouping field and a flag combining voucher value
-            and notes text to identify goodwill gestures — before the data went into a pivot table and time
+            Two calculated columns were added, a Month/Year grouping field and a flag combining voucher value
+            and notes text to identify goodwill gestures before the data went into a pivot table and time
             series chart plotted against key events (offshoring go-live, iPhone launch, Christmas peak).
         </p>
         <p>
             Raw voucher totals alone weren't conclusive, since call volume could also have risen, so I pulled
-            answered-call volumes and calculated a Cost Per Call (CPC) metric to normalise for volume. That's
+            answered call volumes and calculated a Cost Per Call (CPC) metric to normalise for volume. That's
             what turned the trend into a real finding — see Results below.
         </p>
         <p>
-            Working with the change management team confirmed the timing lined up with the outsourcing go-live.
+            Working with the change management team confirmed the timing lined up with the outsourcing go live.
             Following up with the offshore operations team surfaced the actual root cause: agents were working
-            from a knowledge-base article that authorised vouchers "up to £50" for complaints, but it was being
+            from a knowledge base article that authorised vouchers "up to £50" for complaints, but it was being
             read and applied as a flat £50 entitlement rather than a ceiling.
         </p>
         <p>
             Sitting in on live calls with a small group of offshore agents surfaced a second contributing
-            factor — a currency disconnect. Agents working in Rand didn't have an intuitive feel for what a
+            factor a currency disconnect. Agents working in Rand didn't have an intuitive feel for what a
             GBP voucher value represented. To fix this without a full system change, I designed a live currency
             conversion display for their call logging screen, showing the GBP amount converted to Rand in real
             time and flashing red if an agent approached or exceeded their authorisation limit.
@@ -212,14 +212,14 @@ WHERE [IssueDate] BETWEEN @StartDate AND @EndDate
             </div>
             <div class="stat">
                 <span class="stat-value">2 root causes</span>
-                <span class="stat-label">knowledge-base wording + currency literacy</span>
+                <span class="stat-label">knowledge base wording + currency literacy</span>
             </div>
         </div>
         <p style="margin-top:15px;">
-            The findings were presented to key stakeholders with a chart-led narrative rather than raw tables,
-            with built-in check-ins through the presentation to confirm the message was landing. The outcome
-            reframed what looked like an agent-performance problem as a training and system-design issue —
-            authorisation limits and the knowledge-base wording were corrected, the currency-awareness fix was
+            The findings were presented to key stakeholders with a chart led narrative rather than raw tables,
+            with built in check-ins through the presentation to confirm the message was landing. The outcome
+            reframed what looked like an agent performance problem as a training and system-design issue
+            authorisation limits and the knowledge base wording were corrected, the currency awareness fix was
             actioned, and follow-up team briefings were run to close the loop.
         </p>
     </div>
@@ -236,8 +236,8 @@ WHERE [IssueDate] BETWEEN @StartDate AND @EndDate
     <div class="section">
         <h3>Situation</h3>
         <p>
-            A client was rolling out a new third-party NPS (Net Promoter Score) survey tool to capture customer
-            feedback, but the survey data on its own only told half the story — it had no link back to which
+            A client was rolling out a new third party NPS (Net Promoter Score) survey tool to capture customer
+            feedback, but the survey data on its own only told half the story it had no link back to which
             agent handled the call or how that call actually went.
         </p>
     </div>
@@ -245,9 +245,9 @@ WHERE [IssueDate] BETWEEN @StartDate AND @EndDate
     <div class="section">
         <h3>Task</h3>
         <p>
-            Build a dashboard giving Department, Team Leader and Agent-level visibility of NPS performance —
-            which meant first solving a data problem: stitching third-party survey data to internal telephony
-            data with no shared key to join on.
+            Build a dashboard giving Department, Team Leader and Agent level visibility of NPS performance 
+            which meant first solving a data problem, stitching third-party survey data to internal telephony
+            data with no primary key to join on.
         </p>
     </div>
 
@@ -275,7 +275,7 @@ ORDER BY SEGSTART DESC</code></pre>
 
         <p>
             With no common key between the survey export and the telephony extract, I built a fuzzy match in
-            Excel — narrowing on caller ID plus a call-start time falling inside each call's start/end window —
+            Excel narrowing on caller ID plus a call start time falling inside each call's start/end window 
             to pull across agent name, agent ID and call timing:
         </p>
 
@@ -283,7 +283,7 @@ ORDER BY SEGSTART DESC</code></pre>
 =IFERROR(INDEX(ECHI!G:G, MATCH($N2, ECHI!$B:$B, 0)), "")                              ' pulls linked fields</code></pre>
 
         <p>
-            I validated match quality manually — sampling 100 calls, listening back against the survey record —
+            I validated match quality manually sampling 100 calls, listening back against the survey record —
             and confirmed 92% accuracy, comfortably inside the 80% margin agreed for the project. I also built a
             keyword-search flag against the verbatim comments (<code>SEARCH</code> across a list of phrases like
             "disconnected" / "hung up") to tag survey responses where the call may have dropped before
@@ -291,8 +291,8 @@ ORDER BY SEGSTART DESC</code></pre>
         </p>
         <p>
             Once the combined dataset was clean, it fed a Power BI model with Department, Team Leader and Agent
-            views (NPS/CSS gauges, FCR breakdown, and ranked agent tables), plus two forecasting layers — a CSS
-            score forecast and an AHT forecast — and two regression models testing whether survey volume or
+            views (NPS/CSS gauges, FCR breakdown, and ranked agent tables), plus two forecasting layers, a CSS
+            score forecast, an AHT forecast and two regression models testing whether survey volume or
             agent knowledge scores correlated with NPS.
         </p>
     </div>
@@ -315,9 +315,9 @@ ORDER BY SEGSTART DESC</code></pre>
         </div>
         <p style="margin-top:15px;">
             The regression work ruled out survey volume as a driver of CSS score, but found a real relationship
-            between agent knowledge/expertise scores and NPS — insight the client's training team picked up to
+            between agent knowledge/expertise scores and NPS, the client's training team picked up to
             build a targeted coaching plan. The dashboard and underlying data pipeline were handed over
-            future-proofed: any future data drop into the shared OneDrive folder refreshes the model without
+            future proofed: any future data drop into the shared OneDrive folder refreshes the model without
             manual rework.
         </p>
     </div>
