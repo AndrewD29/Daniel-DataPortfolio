@@ -413,6 +413,76 @@
             color: #38bdf8;
         }
 
+        /* CAREER TIMELINE */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: rgba(56, 189, 248, 0.25);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 45px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -40px;
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #0f172a;
+            border: 3px solid #38bdf8;
+        }
+
+        .timeline-item.current .timeline-dot {
+            background: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+        }
+
+        .timeline-dates {
+            font-size: 0.85rem;
+            color: #38bdf8;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .timeline-item h3 {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item .timeline-company {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item p.timeline-desc {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            max-width: 640px;
+        }
+
         /* 7. FOOTER CONTAINER RULES */
         footer {
             background: #0b0f19;
@@ -443,6 +513,7 @@
             <ul>
                 <li><a href="#intro">Home</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#timeline">Timeline</a></li>
                 <li><a href="#projects">Work</a></li>
                 <li><a href="#testimonials">Testimonials</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -533,6 +604,58 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- CAREER TIMELINE SECTION -->
+    <section id="timeline" class="section">
+        <h2 class="section-title">Career <span>Timeline</span></h2>
+        <div class="timeline">
+
+            <div class="timeline-item current">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dates">2025 — Present</div>
+                <h3>BI Developer</h3>
+                <div class="timeline-company">Electricity North West (ENWL)</div>
+                <p class="timeline-desc">
+                    Designing cloud data lakehouse architecture, ETL pipelines and Power BI reporting on Azure
+                    Data Factory & Synapse, supporting network operational resilience for 5M+ customer accounts.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dates">2023 — 2025</div>
+                <h3>Senior Business Intelligence & Data Analyst</h3>
+                <div class="timeline-company">Capita, Southport</div>
+                <p class="timeline-desc">
+                    Led BI delivery using Six Sigma methodology, root-caused a 62% cost spike in customer
+                    voucher spend, and built an agent-level dashboard with personalised, row-level security.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dates">2018 — 2023</div>
+                <h3>Business Insight Analyst</h3>
+                <div class="timeline-company">Capita, Preston</div>
+                <p class="timeline-desc">
+                    Delivered cost-reduction initiatives from £1k to £1M+ across business streams, and built
+                    an NPS dashboard integrating survey and telephony data with forecasting and regression models.
+                </p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-dates">2012 — 2018</div>
+                <h3>Team Manager</h3>
+                <div class="timeline-company">Capita, Preston</div>
+                <p class="timeline-desc">
+                    Led and mentored a 22-person customer service team, maintaining top-performing team status
+                    for 15 consecutive months.
+                </p>
+            </div>
+
         </div>
     </section>
 
