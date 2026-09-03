@@ -107,7 +107,7 @@
     <h1>Azure Cloud Projects</h1>
 
     <p style="color:#94a3b8;">
-        Azure Data Factory, automation, orchestration and cloud-based data engineering solutions supporting
+        Azure Data Factory, automation and cloud-based data engineering solutions supporting
         enterprise reporting and analytics platforms.
     </p>
 
@@ -120,24 +120,24 @@
         <span class="tag">Power BI API</span>
         <span class="tag">Azure SQL</span>
         <span class="tag">Azure Key Vault</span>
-        <span class="tag">Pipeline Orchestration</span>
+        <span class="tag">Pipeline Design</span>
     </div>
 
     <div class="section">
         <h3>Situation</h3>
         <p>
             An operational Power BI report used by Network Management teams refreshed every 30 minutes and
-            relied upon data loaded through an Azure Data Factory pipeline from the Network Management System
-            (NMS). As data volumes increased, warehouse loading activities occasionally overlapped with
-            Power BI refreshes, causing reports to refresh before the latest data was available and generating
-            support requests to investigate discrepancies.
+            relied upon data loaded through an Azure Data Factory pipeline from the Network Management System.
+            As data volumes increased, warehouse loading activities occasionally overlapped with
+            Power BI refreshes, This caused a few issues such as no data loading in to the report and we can not
+            manually refresh as we were already at the max allowed daily and driving support requests to investigate discrepancies.
         </p>
     </div>
 
     <div class="section">
         <h3>Task</h3>
         <p>
-            Review and modify the existing Azure Data Factory orchestration so Power BI datasets could only
+            Review and modify the existing Azure Data Factory design so Power BI datasets could only
             refresh after all ingestion and warehouse processing activities had completed successfully. The
             solution also needed to maintain secure authentication, operational logging and failure handling.
         </p>
@@ -148,7 +148,7 @@
 
         <p>
             I analysed the existing pipeline and identified that the Power BI refresh process could execute
-            independently of the warehouse load sequence. To resolve this, I amended the orchestration so
+            independently of the warehouse load sequence. To resolve this, I amended the design so
             source ingestion completed first, followed by the warehouse loading stored procedure responsible
             for populating reporting dimension tables.
         </p>
@@ -209,7 +209,7 @@
         </div>
 
         <p style="margin-top:15px;">
-            The revised orchestration ensured Power BI reports could only refresh against completed and
+            The revised design ensured Power BI reports could only refresh against completed and
             validated warehouse data. This improved confidence in reporting outputs, reduced support effort
             associated with refresh investigations and demonstrated secure integration across Azure Data
             Factory, Azure SQL, Azure Key Vault and the Power BI REST API.
